@@ -1,0 +1,49 @@
+# 전체 여정 {#sec-whole-game-intro .unnumbered}
+
+```{r}
+#| results: "asis"
+#| echo: false
+source("_common.R")
+```
+
+이 책의 첫번째 파트에서는 데이터 **불러오기, 타이디하게하기, 변환하기, 시각화하기** 로 이루어진 데이터과학 도구들을 빠르게 소개합니다 (@fig-ds-whole-game).
+독자들은 데이터과학 "전체 그림" 을 보고, 중요한 부분들을 충분히 다룬 후, 실제 데이터셋을 다룰 수 있게 될 것입니다.
+책의 후반부에서 각 주제를 깊이 다룬 후, 더 어려운 데이터과학 문제를 해결할 수 있을 것입니다.
+
+```{r}
+#| label: fig-ds-whole-game 
+#| echo: false
+#| out.width: NULL
+#| fig-cap: >
+#|   In this section of the book, you'll learn how to import,
+#|   tidy, transform, and visualize data.
+#| fig-alt: >
+#|   A diagram displaying the data science cycle: Import -> Tidy ->
+#|   Understand  (which has the phases Transform -> Visualize -> Model in a
+#|   cycle) -> Communicate. Surrounding all of these is Program 
+#|   Import, Tidy, Transform, and Visualize is highlighted.
+
+knitr::include_graphics("diagrams/data-science/whole-game.png", dpi = 270)
+```
+
+다섯 장에서는 다음의 데이터과학 도구들을 살펴봅니다:
+
+-   시각화는 바로 도움이 되기 때문에, R 프로그래밍을 시작하기 좋은 주제입니다.
+    시각화부터 R 프로그래밍을 시작하는 것을 추천하는데, 이렇게 하면 확실한 장점이 있습니다.
+    데이터를 이해하는 데 도움이 되는 우아하고 정보성있는 플롯을 만들 수 있습니다.
+    @sec-data-visualization 장에서 더 깊이 들어가서 ggplot2 플롯의 기본 구조와, 데이터를 플롯으로 바꾸는 기술들을 배울 것입니다.
+
+-   시각화만으로는 충분하지 않은 경우가 많습니다.
+    따라서 @sec-data-transform 장에서는 중요한 변수를 선택하고, 필터링하고, 새 변수를 만들고, 요약값을 계산하는 중요한 동사들을 배울 것입니다.
+
+-   @sec-data-tidy 장에서 타이디한 데이터에 대해 배웁니다.
+    타이디한 데이터는 데이터를 변형, 시각화, 모델링하기에 쉬운 일관성있는 저장방법입니다.
+    기본적인 원칙들과 데이터를 타이디한 형태로 만드는 법에 대해 배울 것입니다.
+
+-   데이터를 변환하고 시각화하기 전에 먼저 데이터를 R 로 불러와야 합니다.
+    @sec-data-import 장에서 `.csv` 파일을 R 로 불러오는 기초적인 기술에 대해 배울 것입니다.
+
+이 네 개의 장 사이사이에, R 워크플로에 중점을 둔 세 개의 장도 자리잡고 있습니다.
+@sec-workflow-basics, @sec-workflow-style, @sec-workflow-scripts-projects 장들에서는 R 코드를 작성하고 정리하는 좋은 사례들을 배울 것입니다.
+이 장들에서는 실제 프로젝트에서 잘 정리할 수 있는 도구들을 배워 장기적으로 성공할 수 있는 틀을 갖추게 될 것입니다.
+마지막으로, @sec-workflow-getting-help 장에서는 도움말을 찾고 계속 배울 수 있는 법을 배울 것입니다.
