@@ -63,13 +63,13 @@ RStudio 는 자동으로 `<-` 주위를 공백으로 둘러싼다.
 이는 좋은 코드 포매팅 습관이다.
 이렇게 좋은 날에 코드를 읽는다는 것은 고생스러운일이므로두눈을위해서라도 공백을 사용하라.
 
-## Comments
+## 주석
 
-R will ignore any text after `#` for that line.
-This allows you to write **comments**, text that is ignored by R but read by other humans.
-We'll sometimes include comments in examples explaining what's happening with the code.
+R 에서는 해당 라인에서 `#` 이후의 모든 텍스트를 무시합니다.
+이 기능을 이용하면, **주석** 을 작성할 수 있는데, 주석은 R 은 무시하지만, 다른 사람이 읽는 텍스트입니다.
+코드가 무슨일을 하는지 설명하기 위해, 예제에서 주석을 포함하기도 합니다.
 
-Comments can be helpful for briefly describing what the following code does.
+다음 코드가 무엇을 하는지 간단히 설명하는 데 주석이 유용할 수 있습니다.
 
 ```{r}
 # create vector of primes
@@ -79,19 +79,20 @@ primes <- c(2, 3, 5, 7, 11, 13)
 primes * 2
 ```
 
-With short pieces of code like this, leaving a comment for every single line of code might not be necessary.
-But as the code you're writing gets more complex, comments can save you (and your collaborators) a lot of time figuring out what was done in the code.
+이와 같이 짧은 코드에서, 매 라인마다 주석을 남길 필요는 없을 것이다.
+하지만 복잡한 코드에서 주석을 사용하면, 이 코드에서 무엇을 했는지 알아보기 위해 당신의 (그리고 동료들의) 시간을 많이 절약할 수 있다.
 
-Use comments to explain the *why* of your code, not the *how* or the *what*.
-The *what* and *how* of your code are always possible to figure out, even if it might be tedious, by carefully reading it.
-If you describe every step in the comments, and then change the code, you will have to remember to update the comments as well or it will be confusing when you return to your code in the future.
+주석으로 코드의 *어떻게(how)* 와 *무엇(what)* 이 아니라, *왜(why)* 를 설명하라.
+코드를 잘 읽으면, 귀찮긴 하지만, *무엇* 과 *어떻게* 를 알아내는 것은 항상 가능하다.
+주석에서 매 단계를 설명하고, 코드를 수정했다면, 그 주석을 업데이트하는 것도 까먹지 말아야 한다.
+그렇지 않으면, 나중에 코드를 볼 때 헷갈릴 것이다.
 
-Figuring out *why* something was done is much more difficult, if not impossible.
-For example, `geom_smooth()` has an argument called `span`, which controls the smoothness of the curve, with larger values yielding a smoother curve.
-Suppose you decide to change the value of `span` from its default of 0.75 to 0.9: it's easy for a future reader to understand *what* is happening, but unless you note your thinking in a comment, no one will understand *why* you changed the default.
+어떤 것이 *왜* 수행되었는지 알아내는 것은 불가능하진 않지만, 훨씬 더 어렵다.
+예를 들어, `geom_smooth()` 에는 `span` 이라는 인수가 있는데, 이는 평탄도를 제어하고, 큰 값은 더 평탄한 곡선을 만든다.
+이 `span` 의 값을 기본값인 0.75 에서 0.9 로 변경하기로 결정했다면, *무엇*이 일어났는지 미래의 독자가 이해하는 것은 쉽지만, 주석으로 생각했던 바를 적어놓지 않으면, *왜* 기본값에서 변경했는지 이해하는 사람은 아무도 없을 것이다.
 
-For data analysis code, use comments to explain your overall plan of attack and record important insights as you encounter them.
-There's no way to re-capture this knowledge from the code itself.
+데이터분석 코드에서 주석을 이용하여 전체 공략계획을 설명하고, 중요한 인사이트를 발견했을 때 이를 기록하라.
+코드 자체에서 이 지식을 다시 획득할 수 있는 방법은 없다.
 
 ## 이름짓기 {#sec-whats-in-a-name}
 
@@ -190,26 +191,27 @@ seq(from = 1, to = 10)
 seq(1, 10)
 ```
 
-Type the following code and notice that RStudio provides similar assistance with the paired quotation marks:
+따옴표 한 쌍을 사용할 때도, RStudio 는 유사한 도움을 제공합니다.
+다음을 타이핑해 보자.
 
 ```{r}
 x <- "hello world"
 ```
 
-Quotation marks and parentheses must always come in a pair.
-다음의 코드를 타이핑하고, 짝을 이루는 따옴표로 비슷한 도움을 받아보자.
-RStudio does its best to help you, but it's still possible to mess up and end up with a mismatch.
-If this happens, R will show you the continuation character "+":
+따옴표와 괄호는 항상 짝을 이루어야 한다.
+RStudio는 최선을 다해 도움을 주지만, 엉망이 되어 짝이 맞지 않는 결과를 낳을 가능성도 있다.
+이렇게 되면 R은 연속 문자 "+" 를 표시한다.
 
 ```         
 > x <- "hello
 +
 ```
 
-The `+` tells you that R is waiting for more input; it doesn't think you're done yet.
-Usually, this means you've forgotten either a `"` or a `)`. Either add the missing pair, or press ESCAPE to abort the expression and try again.
+`+` 는 R이 입력을 더 기다리고 있음을 표시한다.
+즉, 여러분이 완료하지 않았다고 생각한다.
+보통 여러분이 `"` 혹은 `)` 를 잊은 경우이다. 누락된 쌍을 추가하거나, ESC 키를 누르고 나가서 다시 해보자.
 
-Note that the environment tab in the upper right pane displays all of the objects that you've created:
+상단 오른쪽 창의 Environment(환경)에 생성된 객체들이 모두 표시된다.
 
 ```{r}
 #| echo: false
@@ -222,7 +224,7 @@ knitr::include_graphics("screenshots/rstudio-env.png")
 
 ## Exercises
 
-1.  Why does this code not work?
+1.  다음의 코드는 왜 작동하지 않는가?
 
     ```{r}
     #| error: true
@@ -231,10 +233,10 @@ knitr::include_graphics("screenshots/rstudio-env.png")
     my_varıable
     ```
 
-    Look carefully!
-    (This may seem like an exercise in pointlessness, but training your brain to notice even the tiniest difference will pay off when programming.)
+    주의 깊게 살펴보라!
+    (연습문제가 의미가 없는 것처럼 보이지만, 아주 작은 차이도 알아채도록 두뇌를 훈련하면 프로그래밍할 때 큰 도움이 된다.)
 
-2.  Tweak each of the following R commands so that they run correctly:
+2.  다음 각 R 명령어를 올바르게 실행되도록 조정하라.
 
     ```{r}
     #| eval: false
@@ -246,14 +248,14 @@ knitr::include_graphics("screenshots/rstudio-env.png")
       geom_smooth(method = "lm)
     ```
 
-3.  Press Option + Shift + K / Alt + Shift + K.
-    What happens?
-    How can you get to the same place using the menus?
+3.  Option + Shift + K / Alt + Shift + K 를 눌러라.
+    어떻게 되는가?
+    메뉴를 사용하여 어떻게 같은 곳으로 갈 수 있는가?
 
-4.  Let's revisit an exercise from the @sec-ggsave.
-    Run the following lines of code.
-    Which of the two plots is saved as `mpg-plot.png`?
-    Why?
+4.  @sec-ggsave 의 연습문제를 다시 보자.
+    다음의 코드를 실행하라.
+    `mpg-plot.png` 에 저장되는 것은 두 플롯 중 어느 것인가?
+    이유는?
 
     ```{r}
     #| eval: false
@@ -265,7 +267,8 @@ knitr::include_graphics("screenshots/rstudio-env.png")
     ggsave(filename = "mpg-plot.png", plot = my_bar_plot)
     ```
 
-## Summary
+## 요약
 
-Now that you've learned a little more about how R code works, and some tips to help you understand your code when you come back to it in the future.
-In the next chapter, we'll continue your data science journey by teaching you about dplyr, the tidyverse package that helps you transform data, whether it's selecting important variables, filtering down to rows of interest, or computing summary statistics.
+R 코드가 작동하는 법과 나중에 당신의 코드를 볼 때 이해하는 데 도움을 주는 팁들을 배웠다.
+다음 장에서는, tidyverse 패키지 dplyr 을 배우는 것으로 데이터과학 여정을 계속할 것이다.
+이 패키지는 중요한 변수들을 선택하고, 필터링하여 관심있는 행을 골라내고, 요약통계량들을 계산하는 등 데이터를 변환하는데 도움을 준다.
