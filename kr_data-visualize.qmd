@@ -10,21 +10,19 @@ status("complete")
 
 ## 들어가기
 
-> "The simple graph has brought more information to the data analyst's mind than any other device." --- John Tukey
+> "간단한 그래프는 데이터 분석가에게 다른 어떤 것보다도 많은 정보를 제공한다." --- 존 튜키 (John Tukey)
 
-R has several systems for making graphs, but ggplot2 is one of the most elegant and most versatile.
-ggplot2 implements the **grammar of graphics**, a coherent system for describing and building graphs.
-With ggplot2, you can do more and faster by learning one system and applying it in many places.
+R 에서 그래프를 만드는 시스템이 몇명 있지만 이 중 가장 우아하고 다재다능한 시스템 중 하나는 ggplot2 이다.
+ggplot2 에는 **그래픽 문법** 이 구현되어 있는데, 이는 그래프를 일관성 있게 기술하고 구현하는 시스템이다.
+ggplot2 를 활용하여 하나의 시스템을 빠르게 배우고 여러 곳에 적용할 수 있다.
 
-This chapter will teach you how to visualize your data using **ggplot2**.
-We will start by creating a simple scatterplot and use that to introduce aesthetic mappings and geometric objects -- the fundamental building blocks of ggplot2.
-We will then walk you through visualizing distributions of single variables as well as visualizing relationships between two or more variables.
-We'll finish off with saving your plots and troubleshooting tips.
+이 장에서는 **ggplot2** 를 이용하여 데이터를 시각화하는 법을 배울 것이다.
+간단한 산점도를 만드는 것으로 시작하여 이를 사용하여 ggplot2 의 기본 구성 요소인 미적매핑과 기하학 개체를 소개하고, 일변수 분포를 시각화하고 두 개 이상의 변수 간의 관계를 시각화하는 방법을 안내한 다음, 플롯 저장 및 문제 해결 팁으로 마무리한다.
 
-### Prerequisites
+### 준비하기
 
-This chapter focuses on ggplot2, one of the core packages in the tidyverse.
-To access the datasets, help pages, and functions used in this chapter, load the tidyverse by running:
+이 장에서는 tidyverse 의 핵심 요소 중 하나인 ggplot2 를 집중적으로 살펴본다.
+이 장에서 사용할 데이터셋, 도움말 페이지, 함수에 접근하기 위해 다음의 코드를 실행하여 tidyverse 를 로드하라:
 
 ```{r}
 #| label: setup
@@ -32,13 +30,13 @@ To access the datasets, help pages, and functions used in this chapter, load the
 library(tidyverse)
 ```
 
-That one line of code loads the core tidyverse; the packages that you will use in almost every data analysis.
-It also tells you which functions from the tidyverse conflict with functions in base R (or from other packages you might have loaded)[^kr_data-visualize-1].
+이 한 줄의 코드만 입력하면 tidyverse 핵심 패키지들이 로드되는데, 거의 모든 데이터 분석에서 이 패키지들을 사용할 것이다.
+또한 이 코드는 tidyverse 의 어떤 함수가 베이스 R 함수들(혹은 이미 로드한 다른 패키지의 함수들)과 충돌하는지도 알려준다[^kr_data-visualize-1].
 
 [^kr_data-visualize-1]: You can eliminate that message and force conflict resolution to happen on demand by using the conflicted package, which becomes more important as you load more packages.
     You can learn more about conflicted at <https://conflicted.r-lib.org>.
 
-If you run this code and get the error message `there is no package called 'tidyverse'`, you'll need to first install it, then run `library()` once again.
+실행한 뒤 "there is no package called 'tidyverse'" 라는 오류 메시지가 뜨면 먼저 아래와 같이 패키지를 설치한 후 `library()` 를 다시 실행해야 한다.
 
 ```{r}
 #| eval: false
@@ -47,33 +45,33 @@ install.packages("tidyverse")
 library(tidyverse)
 ```
 
-You only need to install a package once, but you need to load it every time you start a new session.
+패키지는 한 번만 설치하면 되지만, 새로운 세션을 시작할 때마다 다시 로드해야 한다.
 
-In addition to tidyverse, we will also use the **palmerpenguins** package, which includes the `penguins` dataset containing body measurements for penguins on three islands in the Palmer Archipelago, and the ggthemes package, which offers a colorblind safe color palette.
+tidyverse 외에도 팔머 군도 3 개 섬에 서식하는 펭귄의 신체치수가 포함된 `penguins` 데이터셋이 포함된 **palmerpenguins** 패키지와 색맹친화 색상 팔레트를 제공하는 ggthemes 패키지도 함께 사용할 예정이다.
 
 ```{r}
 library(palmerpenguins)
 library(ggthemes)
 ```
 
-## First steps
+## 첫 단계
 
-Do penguins with longer flippers weigh more or less than penguins with shorter flippers?
-You probably already have an answer, but try to make your answer precise.
-What does the relationship between flipper length and body mass look like?
-Is it positive?
-Negative?
-Linear?
-Nonlinear?
-Does the relationship vary by the species of the penguin?
-And how about by the island where the penguin lives.
-Let's create visualizations that we can use to answer these questions.
+날개가 긴 펭귄은 짧은 펭귄보다 더 몸무게가 더 크거나 작을까?
+답을 이미 알고 있겠지만, 더 정확히 답해보자.
+날개 길이와 몸무게의 관계는 어떨까?
+양의 관계?
+음의 관계?
+선형?
+비선형?
+해당관계는 펭귄 종마다 다를까?
+펭귄이 서식하는 섬을 고려하면 어떨까?
+시각화를 생성하여 이러한 질문들을 해결해보자.
 
-### The `penguins` data frame
+### `penguins` 데이터프레임
 
-You can test your answer with the `penguins` **data frame** found in palmerpenguins (a.k.a. `palmerpenguins::penguins`).
-A data frame is a rectangular collection of variables (in the columns) and observations (in the rows).
-`penguins` contains `r nrow(penguins)` observations collected and made available by Dr. Kristen Gorman and the Palmer Station, Antarctica LTER[^kr_data-visualize-2].
+palmerpenguins 패키지의 `penguins` **데이터프레임** (즉, `palmerpenguins::penguins`)을 이용하여 이러한 질문들에 답할 수 있다.
+데이터프레임은 변수들(열)과 관측값들(행)의 직사각형 형태 모음이다.
+`penguins` 에는 Kristen Gorman 박사와 남극 Palmer 기지 LTER이 수집하고 제공한 `r nrow(penguins)` 개의 관측값들이 있다 [^kr_data-visualize-2].
 
 [^kr_data-visualize-2]: Horst AM, Hill AP, Gorman KB (2020).
     palmerpenguins: Palmer Archipelago (Antarctica) penguin data.
@@ -81,18 +79,18 @@ A data frame is a rectangular collection of variables (in the columns) and obser
     <https://allisonhorst.github.io/palmerpenguins/>.
     doi: 10.5281/zenodo.3960218.
 
-To make the discussion easier, let's define some terms:
+논의를 수월하게 하기 위해, 용어들을 정의해 보자.
 
--   A **variable** is a quantity, quality, or property that you can measure.
+-   **변수** is a quantity, quality, or property that you can measure.
 
--   A **value** is the state of a variable when you measure it.
+-   **값** is the state of a variable when you measure it.
     The value of a variable may change from measurement to measurement.
 
 -   An **observation** is a set of measurements made under similar conditions (you usually make all of the measurements in an observation at the same time and on the same object).
     An observation will contain several values, each associated with a different variable.
     We'll sometimes refer to an observation as a data point.
 
--   **Tabular data** is a set of values, each associated with a variable and an observation.
+-   **테이블 데이터(tabular data)** is a set of values, each associated with a variable and an observation.
     Tabular data is *tidy* if each value is placed in its own "cell", each variable in its own column, and each observation in its own row.
 
 In this context, a variable refers to an attribute of all the penguins, and an observation refers to all the attributes of a single penguin.
@@ -105,7 +103,7 @@ In the tidyverse, we use special data frames called **tibbles** that you will le
 penguins
 ```
 
-This data frame contains `r ncol(penguins)` columns.
+이 데이터프레임에는 `r ncol(penguins)` 개의 열이 있습니다.
 For an alternative view, where you can see all variables and the first few observations of each variable, use `glimpse()`.
 Or, if you're in RStudio, click on the name of the data frame in the Environment pane or run `View(penguins)` to open an interactive data viewer.
 
@@ -113,13 +111,13 @@ Or, if you're in RStudio, click on the name of the data frame in the Environment
 glimpse(penguins)
 ```
 
-Among the variables in `penguins` are:
+`penguins` 에는 다음 변수들이 포함되어 있습니다:
 
-1.  `species`: a penguin's species (Adelie, Chinstrap, or Gentoo).
+1.  `species`: 펭귄종 (Adelie, Chinstrap, \Gentoo).
 
-2.  `flipper_length_mm`: length of a penguin's flipper, in millimeters.
+2.  `flipper_length_mm`: 펭귄 날개 길이 (단위: 밀리미터).
 
-3.  `body_mass_g`: body mass of a penguin, in grams.
+3.  `body_mass_g`: 펭귄 몸무게 (단위: 그램).
 
 To learn more about `penguins`, open its help page by running `?penguins`.
 
